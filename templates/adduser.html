@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add User</title>
+  <style>
+html {
+    background-color: rgb(231, 223, 230);
+  }
+  
+  body {
+    font-family: Tahomaa, sans-serif;
+    font-size: 87%;
+  }
+  
+  header {
+    color: rgb(3, 3, 3);
+    padding-top: 20px;
+    /* padding-bottom: 20px; */
+    font-size: 100%;
+  }
+  
+  header h1 {
+    margin: 0;
+  }
+  
+  header p {
+    margin: 0;
+  }
+  
+  .site-nav {
+    margin-top: 20px;
+  }
+  
+  .site-nav ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .site-nav li {
+    list-style: none;
+    float: left;
+    margin-right: 20px;
+  }
+  
+  .site-nav a {
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding: 10px 10px 10px 10px;
+    border: 3px solid rgb(0, 0, 0);
+    border-bottom: none;
+  }
+  
+  .site-nav a:hover {
+    background-color: rgb(137, 223, 230);
+  }
+  
+.system-information {
+    margin-top: 20px;
+    color: rgb(18, 34, 180);
+    font-size: large;
+    font-weight: bolder;
+    line-height: 30px;
+}
+
+  /* ================ Form ================*/
+  form {
+    background-color: rgb(199, 198, 199);
+    padding: 20px 30px;
+  }
+  
+  input[type="text"] {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0px 10px 0px 10px;
+    height: 30px;
+    font-family: Tahoma, sans-serif;
+    margin-bottom: 10px;
+  }
+
+  input#user-id {
+    width: 13%;
+  }
+
+  input#first-lastname {
+    width: 25%;
+  }
+
+  input#department {
+    width: 17%;
+  }
+
+  input#username {
+    width: 20%;
+  }
+
+  input#password {
+    width: 20%;
+  }
+  
+  select:focus {
+    outline: none;
+  }
+  
+  /*
+  input[type="submit"] {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    height: 30px;
+    background-color: rgb(105, 105, 104);
+    outline: none;
+    border: 1px solid rgb(3, 3, 3);
+    margin-bottom: 5px;
+    border-radius: 3px;
+  
+  }
+
+  */
+  input[type="submit"]:hover,
+  input[type="submit"]:focus {
+    border: 1px solid rgb(10, 10, 10);
+    background-color: rgb(88, 165, 238);
+    outline: none;
+  }
+
+
+  .hidden {
+    position: absolute;
+    height: 0;
+    width: 0;
+    visibility: hidden;
+    overflow: hidden;
+  }
+  
+  /* ================ End Form ================*/
+  
+  .container {
+    /* width: 940px; */
+    background-color: white;
+    max-width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+  }
+  
+  .content-area {
+    border-top: 3px solid rgb(12, 12, 12);
+    border-bottom: 3px solid rgb(0, 0, 0);
+  }
+  
+  .form-area {
+    width: 100%;
+    float: left;
+    padding-right: 0px;
+    box-sizing: border-box;
+  }
+
+/*  ==================== Table ==================== */
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 200px;
+  }
+  
+  .col-user-id {
+    width: 15%;
+  }
+
+  .col-first-lastname {
+    width: 25%;
+  }
+
+  .col-department {
+    width: 15%;
+  }
+  
+  .col-username,
+  .col-password {
+    width: 20%;
+  }
+  
+  table th {
+    text-align: left;
+    background-color: rgb(27, 115, 230);
+    color: white;
+  }
+  
+  table th,
+  table td {
+    border: 2px solid rgb(0, 0, 0);
+    padding: 10px;
+    vertical-align: bottom;
+    /* See very long awkwardiy name yet stil ldellicous */
+  }
+  
+  table tbody tr:nth-child(even) td {
+    background-color: rgb(210, 238, 210);
+  }
+  
+  table.firstTable tr :nth-child(1),
+  table.firstTable tr :nth-child(2),
+  table.firstTable tr :nth-child(3),
+  table.firstTable tr :nth-child(4),
+  table.firstTable tr :nth-child(5) {
+    text-align: center;
+  }
+  
+  table tr:nth-child(2),
+  table tr:nth-child(3) {
+    text-align: left;
+  }
+  /*  ==================== End Table ==================== */
+
+  
+ 
+  .fixed {
+    clear: both;
+  }
+  /* ====== ClearFixed Method ====== */
+
+  .group::before,
+  .group::after {
+    content: "";
+    display: table;
+  }
+  
+  .group::after {
+    clear: both;
+  }
+  
+  .group {
+    zoom: 1;
+  }
+
+  /* ================================ */
+
+  </style>
+  </head>
+  <body>
+    <!-- div1 -->
+    <div class="container">
+
+      <header>
+        <h1>Simple User Management V.{{version}}</h1>
+        <h3 style="color: red;">{{db_status}}</h3>
+        <div class="system-information">
+            <p>Container: {{hostname}}</p>
+            <p>IP Address: {{ipaddress}}</p>
+            <p>Kernel: {{kernel}}</p>
+            <p>Worker: {{worker}}</p>
+        </div> 
+
+        <nav class="site-nav">
+          <ul class="group">
+            <li><a href="/">Add User</a></li>
+            <li><a href="/delete-user">Delete User</a></li>
+            <li><a href="/change-password">Change Password</a></li>
+          </ul>
+        </nav>
+      </header>
+      <!-- div2 -->
+      <div class="content-area group">
+
+        <!-- div3 from-area  -->
+        <div class="form-area">
+          <h2>Add New User.</h2>
+
+          <form action="" method="post">
+            <input id="user-id" type="text" name="user-id" placeholder="User-ID">
+            <input id="first-lastname" type="text" name="first-lastname" id="" placeholder="Firstname Lastname">
+            <input id="department" type="text" name="department" placeholder="Department">
+            <input id="username" type="text" name="username" placeholder="Username">
+            <input id="password" type="text" name="password" placeholder="Password">
+          
+            <input type="submit" value="Add" name="Add">
+
+          </form>
+
+        </div>
+        <!-- div3 from-area -->
+            <table class="firstTable">
+                <thead>
+                <tr>
+                    <th class="col-user-id">User-ID</th>
+                    <th class="col-first-lastname">Firstname Lastname</th>
+                    <th class="col-department">Department</th>
+                    <th class="col-username">Username</th>
+                    <th class="col-password">Password</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for user in users %}
+                <tr>
+                  <td>{{user[0]}}</td>
+                  <td>{{user[1]}}</td>
+                  <td>{{user[2]}}</td>
+                  <td>{{user[3]}}</td>
+                  <td>{{user[4]}}</td>
+                </tr>
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+      
+      
+       
+      
+       <!-- <div class="fixed"></div> -->
+      </div>
+      <!-- div2 -->
+      <div style="box-sizing: border-box; padding-top: 10px; padding-bottom: 20px; color: grey;">
+        <h4>Environment Variable</h4>
+        <p>dbname: {{dbname}}</p>
+        <p>dbuser: {{dbuser}}</p>
+        <p>dbpassword: {{dbpassword}}</p>
+        <p>dbhost: {{dbhost}}</p>
+        <p>dbport: {{dbport}}</p>
+      </div>
+
+    </div>
+    <!-- div1 -->
+
+  </body>
+</html>
