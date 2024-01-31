@@ -1,7 +1,10 @@
 
-from flask import Flask, render_template, request, abort, redirect,url_for
+from flask import Flask, render_template, request, abort, redirect, url_for
 from werkzeug.exceptions import MethodNotAllowed
-import os, platform, socket, subprocess
+import os
+import platform
+import socket
+import subprocess
 from db_function import *
 
 
@@ -10,7 +13,7 @@ app = Flask(__name__)
 
 #################### User Function #####################
 def system_information():
-    
+
     output = subprocess.check_output("uname -r", shell=True)
     return (
         platform.node(),
@@ -18,6 +21,7 @@ def system_information():
         output.decode("utf-8").split("\n")[0],
         os.getenv('NODE_NAME')
     )
+
 
 def get_envs():
     return (
@@ -29,11 +33,13 @@ def get_envs():
     )
 
 #################### Route #####################
-@app.route('/', methods = ['GET','POST'])
+
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
     info = system_information()
     if db_status():
-        
+
         users = get_user()
 
         if request.method == "POST":
@@ -45,7 +51,7 @@ def index():
             password = request.form['password']
 
             if id != "" and name != "" and department != "" and username != "" and password != "":
-                add_user(id,name,department,username,password)
+                add_user(id, name, department, username, password)
             else:
                 pass
 
@@ -54,19 +60,19 @@ def index():
         else:
 
             return render_template(
-                'adduser.html',hostname=info[0],ipaddress=info[1],kernel=info[2],version='1.0',worker=info[3],users=users,
-                dbuser=get_envs()[0],dbname=get_envs()[1],dbpassword=get_envs()[2],dbhost=get_envs()[3],dbport=get_envs()[4])
+                'adduser.html', hostname=info[0], ipaddress=info[1], kernel=info[2], version='1.1', worker=info[3], users=users,
+                dbuser=get_envs()[0], dbname=get_envs()[1], dbpassword=get_envs()[2], dbhost=get_envs()[3], dbport=get_envs()[4])
 
     else:
         users = ()
         return render_template(
-            'adduser.html',hostname=info[0],ipaddress=info[1],kernel=info[2],version='1.0',worker=info[3],users=users,
-            dbuser=get_envs()[0],dbname=get_envs()[1],dbpassword=get_envs()[2],dbhost=get_envs()[3],dbport=get_envs()[4],
+            'adduser.html', hostname=info[0], ipaddress=info[1], kernel=info[2], version='1.1', worker=info[3], users=users,
+            dbuser=get_envs()[0], dbname=get_envs()[1], dbpassword=get_envs()[
+                2], dbhost=get_envs()[3], dbport=get_envs()[4],
             db_status='[ db connection failed ]')
 
 
-
-@app.route('/delete-user', methods = ['GET','POST'])
+@app.route('/delete-user', methods=['GET', 'POST'])
 def page_delete_user():
     info = system_information()
     if db_status():
@@ -83,18 +89,19 @@ def page_delete_user():
 
         else:
             return render_template(
-                'deleteuser.html',hostname=info[0],ipaddress=info[1],kernel=info[2],version='1.0',worker=info[3],users=users,
-                dbuser=get_envs()[0],dbname=get_envs()[1],dbpassword=get_envs()[2],dbhost=get_envs()[3],dbport=get_envs()[4])
+                'deleteuser.html', hostname=info[0], ipaddress=info[1], kernel=info[2], version='1.1', worker=info[3], users=users,
+                dbuser=get_envs()[0], dbname=get_envs()[1], dbpassword=get_envs()[2], dbhost=get_envs()[3], dbport=get_envs()[4])
 
     else:
         users = ()
         return render_template(
-            'deleteuser.html',hostname=info[0],ipaddress=info[1],kernel=info[2],version='1.0',worker=info[3],users=users,
-            dbuser=get_envs()[0],dbname=get_envs()[1],dbpassword=get_envs()[2],dbhost=get_envs()[3],dbport=get_envs()[4],
+            'deleteuser.html', hostname=info[0], ipaddress=info[1], kernel=info[2], version='1.1', worker=info[3], users=users,
+            dbuser=get_envs()[0], dbname=get_envs()[1], dbpassword=get_envs()[
+                2], dbhost=get_envs()[3], dbport=get_envs()[4],
             db_status='[ db connection failed ]')
 
 
-@app.route('/change-password', methods = ['GET','POST'])
+@app.route('/change-password', methods=['GET', 'POST'])
 def page_change_password():
 
     info = system_information()
@@ -106,7 +113,7 @@ def page_change_password():
             new_password = request.form['password']
 
             if username != "" and new_password != "":
-                update_password(username,new_password)
+                update_password(username, new_password)
             else:
                 pass
 
@@ -114,26 +121,27 @@ def page_change_password():
 
         else:
             return render_template(
-                'updatepassword.html',hostname=info[0],ipaddress=info[1],kernel=info[2],version='1.0',worker=info[3],users=users,
-                dbuser=get_envs()[0],dbname=get_envs()[1],dbpassword=get_envs()[2],dbhost=get_envs()[3],dbport=get_envs()[4])
-    
+                'updatepassword.html', hostname=info[0], ipaddress=info[1], kernel=info[2], version='1.1', worker=info[3], users=users,
+                dbuser=get_envs()[0], dbname=get_envs()[1], dbpassword=get_envs()[2], dbhost=get_envs()[3], dbport=get_envs()[4])
+
     else:
         users = ()
         return render_template(
-            'updatepassword.html',hostname=info[0],ipaddress=info[1],kernel=info[2],version='1.0',worker=info[3],users=users,
-            dbuser=get_envs()[0],dbname=get_envs()[1],dbpassword=get_envs()[2],dbhost=get_envs()[3],dbport=get_envs()[4],
+            'updatepassword.html', hostname=info[0], ipaddress=info[1], kernel=info[2], version='1.1', worker=info[3], users=users,
+            dbuser=get_envs()[0], dbname=get_envs()[1], dbpassword=get_envs()[
+                2], dbhost=get_envs()[3], dbport=get_envs()[4],
             db_status='[ db connection failed ]')
 
 
-
-@app.route('/health-check',methods = ['GET'])
+@app.route('/health-check', methods=['GET'])
 def heal_check():
     if db_status():
         return "OK.\n"
     else:
-        return "Database connection error.\n" ,500
+        return "Database connection error.\n", 500
 
-@app.route('/health-check2',methods = ['GET'])
+
+@app.route('/health-check2', methods=['GET'])
 def heal_check2():
     if db_status():
         return "OK.\n"
@@ -142,4 +150,4 @@ def heal_check2():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port = 31000, debug= True)
+    app.run(host='0.0.0.0', port=31000, debug=True)
