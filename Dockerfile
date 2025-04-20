@@ -10,4 +10,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+EXPOSE 31000 8080
+
 CMD [ "python", "./userapp.py" ]
